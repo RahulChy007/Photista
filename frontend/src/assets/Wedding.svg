@@ -1,0 +1,22 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="60" cy="60" r="50" fill="#E6ECFF"></circle>
+
+  <!-- heads -->
+  <circle cx="52" cy="38" r="12" fill="#FFD9C2"></circle>
+  <circle cx="68" cy="38" r="12" fill="#FFD9C2"></circle>
+
+  <!-- hair -->
+  <path d="M44 34 Q52 26 60 34" fill="#5B7CFA"></path>
+  <path d="M60 34 Q68 26 76 34" fill="#2E3A59"></path>
+
+  <!-- body -->
+  <rect x="40" y="54" width="40" height="40" rx="16" fill="#5B7CFA"></rect>
+
+  <!-- camera -->
+  <rect x="42" y="68" width="36" height="22" rx="6" fill="#2E3A59"></rect>
+  <circle cx="60" cy="79" r="6" fill="#FFD9C2"></circle>
+
+  <!-- hands -->
+  <rect x="38" y="70" width="10" height="8" rx="4" fill="#FFD9C2"></rect>
+  <rect x="72" y="70" width="10" height="8" rx="4" fill="#FFD9C2"></rect>
+</svg>

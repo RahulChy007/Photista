@@ -1,0 +1,19 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="60" cy="60" r="50" fill="#E6ECFF"></circle>
+
+  <!-- head -->
+  <circle cx="60" cy="38" r="14" fill="#FFD9C2"></circle>
+
+  <!-- hat -->
+  <path d="M40 36 Q60 26 80 36" fill="#2E3A59"></path>
+
+  <!-- body -->
+  <rect x="40" y="54" width="40" height="40" rx="14" fill="#5B7CFA"></rect>
+
+  <!-- telephoto -->
+  <rect x="30" y="68" width="60" height="18" rx="6" fill="#2E3A59"></rect>
+  <rect x="86" y="70" width="16" height="14" rx="4" fill="#AAB3D6"></rect>
+
+  <!-- strap -->
+  <path d="M36 88 Q60 96 84 88" stroke="#AAB3D6" stroke-width="3" fill="none"></path>
+</svg>

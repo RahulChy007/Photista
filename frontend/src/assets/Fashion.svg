@@ -1,0 +1,18 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="60" cy="60" r="50" fill="#E6ECFF"></circle>
+
+  <!-- hair -->
+  <path d="M42 34 Q60 14 78 34" fill="#5B7CFA"></path>
+
+  <circle cx="60" cy="38" r="14" fill="#FFD9C2"></circle>
+
+  <!-- long coat -->
+  <rect x="40" y="52" width="40" height="44" rx="18" fill="#5B7CFA"></rect>
+
+  <!-- camera -->
+  <rect x="44" y="66" width="32" height="20" rx="6" fill="#2E3A59"></rect>
+
+  <!-- hands -->
+  <rect x="40" y="68" width="10" height="8" rx="4" fill="#FFD9C2"></rect>
+  <rect x="70" y="68" width="10" height="8" rx="4" fill="#FFD9C2"></rect>
+</svg>

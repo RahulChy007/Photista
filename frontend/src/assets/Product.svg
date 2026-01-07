@@ -1,0 +1,15 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="60" cy="60" r="50" fill="#E6ECFF"></circle>
+
+  <circle cx="60" cy="38" r="14" fill="#FFD9C2"></circle>
+
+  <!-- body -->
+  <rect x="42" y="54" width="36" height="40" rx="14" fill="#5B7CFA"></rect>
+
+  <!-- camera -->
+  <rect x="36" y="66" width="48" height="22" rx="6" fill="#2E3A59"></rect>
+  <circle cx="60" cy="77" r="6" fill="#FFD9C2"></circle>
+
+  <!-- product -->
+  <rect x="52" y="90" width="16" height="8" rx="3" fill="#AAB3D6"></rect>
+</svg>
