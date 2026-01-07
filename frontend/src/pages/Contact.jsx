@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import emailjs from "emailjs-com";
 
-const Contact = () => {
+const contact = () => {
   const formRef = useRef();
   const [isSent, setIsSent] = useState(false);
 
@@ -128,4 +128,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default contact;
