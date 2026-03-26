@@ -35,13 +35,13 @@ const Home = () => {
         <AnimatePresence>
           {showDevelopmentPopup && (
             <motion.div
-              className='fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 px-4 backdrop-blur-sm'
+              className='fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-slate-950/70 px-4 py-4 backdrop-blur-sm sm:items-center sm:py-6'
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
               <motion.div
-                className='relative w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl'
+                className='relative my-auto w-full max-w-2xl overflow-y-auto rounded-3xl bg-white shadow-2xl max-sm:max-h-[calc(100vh-2rem)] sm:max-h-[calc(100vh-3rem)]'
                 initial={{ opacity: 0, y: 30, scale: 0.96 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 16, scale: 0.98 }}
