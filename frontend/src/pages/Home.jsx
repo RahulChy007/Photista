@@ -63,8 +63,8 @@ const Home = () => {
 
                 <div className='space-y-5 px-6 py-6 sm:px-8 sm:py-8'>
                   <div className='rounded-2xl border border-primary/15 bg-primary/5 p-4 text-sm leading-6 text-gray-700 sm:text-base'>
-                    Download the APK below to start using Photista right away while we continue
-                    improving the website experience.
+                    Download or update the APK below to start using the latest Photista
+                    Android app while we continue improving the website experience.
                   </div>
 
                   <div className='grid gap-3 text-sm text-gray-600 sm:grid-cols-3'>
@@ -92,9 +92,35 @@ const Home = () => {
                     <a
                       href='/Photista-mobile.apk'
                       download='Photista-mobile.apk'
-                      className='inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:scale-[1.02] hover:bg-primary/90'
+                      className='inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:scale-[1.02] hover:bg-primary/90'
                     >
-                      Download Android App
+                      <svg
+                        className='h-5 w-5 text-[#A4C639]'
+                        viewBox='0 0 24 24'
+                        fill='none'
+                        aria-hidden='true'
+                      >
+                        <path
+                          d='M8.25 7.75 6.6 5.3M15.75 7.75 17.4 5.3'
+                          stroke='currentColor'
+                          strokeWidth='1.6'
+                          strokeLinecap='round'
+                        />
+                        <rect x='6.2' y='8' width='11.6' height='7.2' rx='3.6' fill='currentColor' />
+                        <circle cx='10' cy='11.4' r='0.8' fill='white' />
+                        <circle cx='14' cy='11.4' r='0.8' fill='white' />
+                        <path
+                          d='M7.4 15.2h9.2v2.3a1.8 1.8 0 0 1-1.8 1.8H9.2a1.8 1.8 0 0 1-1.8-1.8v-2.3Z'
+                          fill='currentColor'
+                        />
+                        <path
+                          d='M9.2 15.2v2.7a.9.9 0 1 1-1.8 0v-2.7m8.4 0v2.7a.9.9 0 1 1-1.8 0v-2.7'
+                          stroke='currentColor'
+                          strokeWidth='1.6'
+                          strokeLinecap='round'
+                        />
+                      </svg>
+                      Download or update Photista Android app
                     </a>
                     <button
                       type='button'
