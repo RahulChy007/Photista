@@ -4,36 +4,71 @@ import { useNavigate } from "react-router-dom";
 
 const Banner = () => {
   const navigate = useNavigate();
+
   return (
-    <div className="flex bg-primary rounded-lg px-6 sm:px-10 md:px-14 lg:px-12 my-20 md:mx-10">
-      {/*------------Left Side-------------------*/}
-      <div className="flex-1 py-8 sm:py-10 md:py-16 lg:py-24 lg:pl-5">
-        <div className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-semibold text-white">
-          <p>Book Appointment</p>
-          <p className="mt-4 sm:text-xl md:text-2xl lg:text-3xl">
-            with 100+ best rated photographers
+    <section className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+      <div className="app-surface rounded-[34px] bg-[linear-gradient(180deg,#e7ebff_0%,#f7f8fe_100%)] px-6 py-8 sm:px-8 lg:px-10">
+        <div className="space-y-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary">
+            For larger productions
+          </p>
+          <h3 className="text-3xl font-semibold tracking-tight text-highlight sm:text-4xl">
+            Book full events with multi-photographer support.
+          </h3>
+          <p className="max-w-xl text-sm leading-7 text-slate-600 sm:text-base">
+            Wedding, birthday, and corporate event booking all stay in one flow
+            with transparent event pricing and team selection.
           </p>
         </div>
-        <button
-          onClick={() => {
-            navigate("/auth");
-            scrollTo(0, 0);
-          }}
-          className="bg-white text-sm mt-2 sm:text-base text-gray-600 px-10 py-3 rounded-full mt-6 hover:scale-105 transition-all cursor-pointer"
-        >
-          create account
-        </button>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={() => navigate("/event-booking")}
+            className="app-button-primary"
+          >
+            Start event booking
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate("/contact")}
+            className="app-button-secondary"
+          >
+            Talk to the team
+          </button>
+        </div>
       </div>
-      {/*------------Right Side------------------*/}{" "}
-      <div className="w-1/3 md:w-1/2 lg:w-[370px] relative">
-        {" "}
-        <img
-          className="w-full absolute bottom-0 right-0 max-w-medium"
-          src={assets.appointment_img}
-          alt=""
-        />{" "}
+
+      <div className="app-surface relative overflow-hidden rounded-[34px] bg-[linear-gradient(135deg,#1d1437_0%,#0d1732_100%)] px-6 py-8 text-white sm:px-8 lg:px-10">
+        <div className="absolute -right-10 top-6 h-32 w-32 rounded-full bg-primary/30 blur-3xl" />
+        <div className="relative flex h-full flex-col justify-between gap-6 lg:flex-row lg:items-center">
+          <div className="max-w-md space-y-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/70">
+              For creators
+            </p>
+            <h3 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+              Turn your studio into a verified Photista listing.
+            </h3>
+            <p className="text-sm leading-7 text-white/78 sm:text-base">
+              Apply with your portfolio, submit packages, and move toward a live
+              listing that mirrors the mobile creator experience.
+            </p>
+            <button
+              type="button"
+              onClick={() => navigate("/auth")}
+              className="app-button-primary"
+            >
+              Create photographer account
+            </button>
+          </div>
+
+          <img
+            className="mx-auto w-full max-w-xs object-contain lg:max-w-sm"
+            src={assets.appointment_img}
+            alt="Photista booking experience"
+          />
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

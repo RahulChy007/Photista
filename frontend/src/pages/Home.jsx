@@ -1,156 +1,89 @@
-import React, { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import Header from '../components/Header'
-import SpecialityMenu from '../components/SpecialityMenu'
-import TopPhotographers from '../components/TopPhotographers'
-import Banner from '../components/Banner'
+import React, { useContext, useMemo } from "react";
+import Header from "../components/Header";
+import SpecialityMenu from "../components/SpecialityMenu";
+import TopPhotographers from "../components/TopPhotographers";
+import Banner from "../components/Banner";
+import { AppContext } from "../context/AppContext";
 
 const Home = () => {
-  const [showDevelopmentPopup, setShowDevelopmentPopup] = useState(true)
+  const { photographers } = useContext(AppContext);
 
-  useEffect(() => {
-    if (!showDevelopmentPopup) {
-      return undefined
-    }
+  const metrics = useMemo(() => {
+    const reviewCount = photographers.reduce(
+      (sum, item) => sum + (Array.isArray(item.reviews) ? item.reviews.length : 0),
+      0
+    );
+    const specialityCount = new Set(photographers.map((item) => item.speciality)).size;
+    const averageStartingPrice =
+      photographers.reduce((sum, item) => sum + Number(item.basePrice || 0), 0) /
+      Math.max(photographers.length, 1);
 
-    const originalOverflow = document.body.style.overflow
-
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        setShowDevelopmentPopup(false)
-      }
-    }
-
-    document.body.style.overflow = 'hidden'
-    window.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      document.body.style.overflow = originalOverflow
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [showDevelopmentPopup])
+    return [
+      {
+        label: "Live photographers",
+        value: `${photographers.length}+`,
+      },
+      {
+        label: "Specialities covered",
+        value: `${specialityCount}`,
+      },
+      {
+        label: "Visible review signals",
+        value: `${reviewCount}`,
+      },
+      {
+        label: "Average starting fee",
+        value: `₹${Math.round(averageStartingPrice)}`,
+      },
+    ];
+  }, [photographers]);
 
   return (
-    <div>
-        <AnimatePresence>
-          {showDevelopmentPopup && (
-            <motion.div
-              className='fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-slate-950/70 px-4 py-4 backdrop-blur-sm sm:items-center sm:py-6'
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <motion.div
-                className='relative my-auto w-full max-w-2xl overflow-y-auto rounded-3xl bg-white shadow-2xl max-sm:max-h-[calc(100vh-2rem)] sm:max-h-[calc(100vh-3rem)]'
-                initial={{ opacity: 0, y: 30, scale: 0.96 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 16, scale: 0.98 }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
-              >
-                <div className='bg-primary px-6 py-5 text-white sm:px-8'>
-                  <p className='text-sm font-semibold uppercase tracking-[0.3em] text-white/80'>
-                    Important Update
-                  </p>
-                  <h2 className='mt-2 text-2xl font-bold sm:text-3xl'>
-                    Photista website is currently in development
-                  </h2>
-                  <p className='mt-3 max-w-xl text-sm leading-6 text-white/90 sm:text-base'>
-                    We are actively polishing the web experience. In the meantime, our Android
-                    app is already complete, stable, and ready to use for bookings, browsing
-                    photographers, and managing appointments.
-                  </p>
-                </div>
+    <div className="space-y-8 sm:space-y-10">
+      <Header />
 
-                <div className='space-y-5 px-6 py-6 sm:px-8 sm:py-8'>
-                  <div className='rounded-2xl border border-primary/15 bg-primary/5 p-4 text-sm leading-6 text-gray-700 sm:text-base'>
-                    Download or update the APK below to start using the latest Photista
-                    Android app while we continue improving the website experience.
-                  </div>
+      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {metrics.map((item) => (
+          <div key={item.label} className="app-surface rounded-[28px] px-5 py-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary/70">
+              {item.label}
+            </p>
+            <p className="mt-3 text-3xl font-semibold text-slate-950">
+              {item.value}
+            </p>
+          </div>
+        ))}
+      </section>
 
-                  <div className='grid gap-3 text-sm text-gray-600 sm:grid-cols-3'>
-                    <div className='rounded-2xl border border-gray-200 p-4'>
-                      <p className='font-semibold text-gray-900'>Fully Functional App</p>
-                      <p className='mt-2'>
-                        The Android app is live and ready for real use from day one.
-                      </p>
-                    </div>
-                    <div className='rounded-2xl border border-gray-200 p-4'>
-                      <p className='font-semibold text-gray-900'>Faster Access</p>
-                      <p className='mt-2'>
-                        Browse photographers, check profiles, and book appointments with ease.
-                      </p>
-                    </div>
-                    <div className='rounded-2xl border border-gray-200 p-4'>
-                      <p className='font-semibold text-gray-900'>Website Coming Soon</p>
-                      <p className='mt-2'>
-                        New improvements and a smoother web experience are on the way.
-                      </p>
-                    </div>
-                  </div>
+      <section className="app-surface rounded-[34px] px-6 py-7 sm:px-8">
+        <div className="grid gap-5 lg:grid-cols-3">
+          {[
+            {
+              title: "Real photographers first",
+              body: "The website now follows the app’s trust-first flow, so users see actual profiles, real pricing, and real review signals before booking.",
+            },
+            {
+              title: "Cleaner booking journey",
+              body: "Moving from discovery to detail to booking now feels closer to the mobile product instead of separate disconnected pages.",
+            },
+            {
+              title: "Built for interviews and demos",
+              body: "The layout is intentionally more polished, product-like, and easier to explain when you walk someone through the Photista experience.",
+            },
+          ].map((item) => (
+            <div key={item.title} className="rounded-[28px] border border-slate-100 bg-slate-50 px-5 py-5">
+              <h3 className="text-lg font-semibold text-slate-950">{item.title}</h3>
+              <p className="mt-2 text-sm leading-7 text-slate-600">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-                  <div className='flex flex-col gap-3 sm:flex-row sm:items-center'>
-                    <a
-                      href='/Photista-mobile.apk'
-                      download='Photista-mobile.apk'
-                      className='inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:scale-[1.02] hover:bg-primary/90'
-                    >
-                      <svg
-                        className='h-5 w-5 text-[#A4C639]'
-                        viewBox='0 0 24 24'
-                        fill='none'
-                        aria-hidden='true'
-                      >
-                        <path
-                          d='M8.25 7.75 6.6 5.3M15.75 7.75 17.4 5.3'
-                          stroke='currentColor'
-                          strokeWidth='1.6'
-                          strokeLinecap='round'
-                        />
-                        <rect x='6.2' y='8' width='11.6' height='7.2' rx='3.6' fill='currentColor' />
-                        <circle cx='10' cy='11.4' r='0.8' fill='white' />
-                        <circle cx='14' cy='11.4' r='0.8' fill='white' />
-                        <path
-                          d='M7.4 15.2h9.2v2.3a1.8 1.8 0 0 1-1.8 1.8H9.2a1.8 1.8 0 0 1-1.8-1.8v-2.3Z'
-                          fill='currentColor'
-                        />
-                        <path
-                          d='M9.2 15.2v2.7a.9.9 0 1 1-1.8 0v-2.7m8.4 0v2.7a.9.9 0 1 1-1.8 0v-2.7'
-                          stroke='currentColor'
-                          strokeWidth='1.6'
-                          strokeLinecap='round'
-                        />
-                      </svg>
-                      Download or update Photista Android app
-                    </a>
-                    <button
-                      type='button'
-                      onClick={() => setShowDevelopmentPopup(false)}
-                      className='inline-flex items-center justify-center rounded-full border border-gray-300 px-6 py-3 text-sm font-semibold text-gray-700 transition hover:border-gray-400 hover:bg-gray-50'
-                    >
-                      Continue to Website
-                    </button>
-                  </div>
-                </div>
-
-                <button
-                  type='button'
-                  onClick={() => setShowDevelopmentPopup(false)}
-                  className='absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-2xl text-white transition hover:bg-white/25'
-                  aria-label='Close popup'
-                >
-                  &times;
-                </button>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <Header/>
-        <SpecialityMenu/>
-        <TopPhotographers/>
-        <Banner/>
+      <SpecialityMenu />
+      <TopPhotographers />
+      <Banner />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

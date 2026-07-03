@@ -2,36 +2,52 @@ import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import emailjs from "emailjs-com";
 
+const emailConfig = {
+  serviceId: `${import.meta.env.VITE_EMAILJS_SERVICE_ID || ""}`.trim(),
+  templateId: `${import.meta.env.VITE_EMAILJS_TEMPLATE_ID || ""}`.trim(),
+  publicKey: `${import.meta.env.VITE_EMAILJS_PUBLIC_KEY || ""}`.trim(),
+};
+
+const isEmailConfigured = Object.values(emailConfig).every(Boolean);
+
 const Contact = () => {
   const formRef = useRef();
   const [isSent, setIsSent] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const sendEmail = (e) => {
     e.preventDefault();
+    setIsSent(false);
+    setErrorMessage("");
+
+    if (!isEmailConfigured) {
+      setErrorMessage(
+        "Contact form is temporarily unavailable. Please configure the EmailJS public variables for the web app."
+      );
+      return;
+    }
 
     emailjs
       .sendForm(
-        "service_iyxnrz3",     
-        "template_s254xsc",    
+        emailConfig.serviceId,
+        emailConfig.templateId,
         formRef.current,
-        "MGydXoDF9kjWkciWt"      
+        emailConfig.publicKey
       )
       .then(
-        (result) => {
-          console.log(result.text);
+        () => {
           setIsSent(true);
           formRef.current.reset();
         },
-        (error) => {
-          console.log(error.text);
+        () => {
           setIsSent(false);
+          setErrorMessage("We could not send your message right now. Please try again shortly.");
         }
       );
   };
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-12">
-      {/* Page Title */}
       <motion.h1
         className="text-3xl sm:text-5xl font-bold text-center mb-12 text-gray-900"
         initial={{ opacity: 0, y: -40 }}
@@ -42,7 +58,6 @@ const Contact = () => {
       </motion.h1>
 
       <div className="grid md:grid-cols-2 gap-12">
-        {/* Contact Form */}
         <motion.div
           initial={{ opacity: 0, x: -80 }}
           animate={{ opacity: 1, x: 0 }}
@@ -72,12 +87,13 @@ const Contact = () => {
               placeholder="Your Message"
               required
               className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary outline-none"
-            ></textarea>
+            />
             <motion.button
               type="submit"
-              className="w-full py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              disabled={!isEmailConfigured}
+              className="w-full py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition disabled:cursor-not-allowed disabled:opacity-60"
+              whileHover={{ scale: isEmailConfigured ? 1.05 : 1 }}
+              whileTap={{ scale: isEmailConfigured ? 0.95 : 1 }}
             >
               Send Message
             </motion.button>
@@ -89,12 +105,21 @@ const Contact = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
-              ✅ Message Sent Successfully! We'll Contact You Shortly!
+              Message sent successfully. We will contact you shortly.
+            </motion.p>
+          )}
+
+          {errorMessage && (
+            <motion.p
+              className="mt-4 text-red-600 font-medium"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              {errorMessage}
             </motion.p>
           )}
         </motion.div>
 
-        {/* Contact Info + Map */}
         <motion.div
           initial={{ opacity: 0, x: 80 }}
           animate={{ opacity: 1, x: 0 }}
@@ -103,13 +128,13 @@ const Contact = () => {
         >
           <h2 className="text-2xl font-semibold text-gray-800">Contact Information</h2>
           <p className="text-gray-600">
-            Have questions? Reach out to us and we’ll respond as soon as possible.
+            Have questions? Reach out to us and we will respond as soon as possible.
           </p>
 
           <div className="space-y-3">
-            <p className="text-gray-700">📍 Haldia, West Bengal, India</p>
-            <p className="text-gray-700">📞 +91 99735 71743</p>
-            <p className="text-gray-700">✉️ support@photista.com</p>
+            <p className="text-gray-700">Haldia, West Bengal, India</p>
+            <p className="text-gray-700">+91 99735 71743</p>
+            <p className="text-gray-700">support@photista.com</p>
           </div>
 
           <div className="rounded-xl overflow-hidden shadow-lg">
@@ -120,7 +145,7 @@ const Contact = () => {
               allowFullScreen=""
               loading="lazy"
               title="Location"
-            ></iframe>
+            />
           </div>
         </motion.div>
       </div>

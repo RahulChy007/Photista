@@ -1,26 +1,39 @@
-import React from 'react'
-import { specialityData } from '../assets/assets'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { specialityData } from "../assets/assets";
+import { Link } from "react-router-dom";
+import SectionTitle from "./SectionTitle";
 
 const SpecialityMenu = () => {
   return (
-    <div className='flex flex-col items-center gap-4 py-16 text-gray-800' id='speciality'>
-       <h1 className='text-3xl font-medium'>
-        Find by Speciality
-       </h1>
-       <p className='sm:w-1/3 text-center text-sm'>
-        Simply browse through our extensive list of photographers, schedule your appointment hassle-free.
-       </p>
-       <div className='flex sm:justify-center gap-7 pt-5 w-full overflow-scroll'>
-            {specialityData.map((item, index)=>(
-                <Link onClick={()=>scrollTo(0,0)} className='flex flex-col items-center text-xs cursor-pointer flex-shrink-0 hover:translate-y-[-10px] transition-all duration-500' key={index} to={`/photographers/${item.speciality}`}>
-                    <img className='w-24 sm:w-30 mb-2' src={item.image} alt="" />
-                    <p>{item.speciality}</p>
-                </Link>
-            ))}   
-       </div>
-    </div>
-  )
-}
+    <section className="space-y-8" id="speciality">
+      <SectionTitle
+        eyebrow="Specialities"
+        title="Find by speciality"
+        description="The same discovery language as the app, translated into a cleaner desktop experience."
+      />
 
-export default SpecialityMenu
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {specialityData.map((item) => (
+          <Link
+            key={item.speciality}
+            to={`/photographers/${item.speciality}`}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="app-surface group flex items-center gap-4 rounded-[28px] p-5 hover:-translate-y-1"
+          >
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[22px] bg-panel">
+              <img className="h-10 w-10 object-contain" src={item.image} alt={item.speciality} />
+            </div>
+            <div className="space-y-1">
+              <p className="text-lg font-semibold text-slate-950">{item.speciality}</p>
+              <p className="text-sm text-slate-600">
+                Browse curated profiles and move straight into booking.
+              </p>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default SpecialityMenu;

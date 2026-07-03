@@ -1,61 +1,142 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { AppContext } from '../context/AppContext'
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
+import PhotographerCard from "../components/PhotographerCard";
+import SectionTitle from "../components/SectionTitle";
 
+const specialityLabels = [
+  "Wedding Photographer",
+  "Portrait Photographer",
+  "Fashion Photographer",
+  "Event Photographer",
+  "Product Photographer",
+  "Travel Photographer",
+];
 
 const Photographers = () => {
+  const { speciality } = useParams();
+  const navigate = useNavigate();
+  const { photographers } = useContext(AppContext);
+  const [filteredPhotographers, setFilteredPhotographers] = useState([]);
 
-  const { speciality } = useParams()
-
-  const [ filterPhotographer, setFilterPhotographer ]= useState([])
-
-  const navigate = useNavigate()
-
-  const { photographers } = useContext(AppContext)
-
-  const applyFilter = () => {
+  useEffect(() => {
     if (speciality) {
-      setFilterPhotographer(photographers.filter(p => p.speciality === speciality))
-    } else {
-      setFilterPhotographer(photographers)
+      setFilteredPhotographers(
+        photographers.filter((photographer) => photographer.speciality === speciality)
+      );
+      return;
     }
-  }
 
-  useEffect(()=>{
-    applyFilter()
-  },[photographers,speciality])
+    setFilteredPhotographers(photographers);
+  }, [photographers, speciality]);
+
+  const totalReviews = useMemo(
+    () =>
+      filteredPhotographers.reduce(
+        (sum, item) => sum + (Array.isArray(item.reviews) ? item.reviews.length : 0),
+        0
+      ),
+    [filteredPhotographers]
+  );
 
   return (
-    <div>
-        <p className='text-gray-600'>Browse through the specialist photographers</p>
-        <div className='flex flex-col sm:flex-row items-start gap-5 mt-5'>
-          <div className='flex flex-col gap-4 text-xs text-gray-600'>
-            <p onClick={()=> speciality === 'Wedding Photographer' ? navigate('/photographers') : navigate('/photographers/Wedding Photographer') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Wedding Photographer" ? "bg-indigo-100 text-black" : ""}`}>Wedding Photographer</p>
-            <p onClick={()=> speciality === 'Portrait Photographer' ? navigate('/photographers') : navigate('/photographers/Portrait Photographer') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Portrait Photographer" ? "bg-indigo-100 text-black" : ""}`}>Portrait Photographer</p>
-            <p onClick={()=> speciality === 'Fashion Photographer' ? navigate('/photographers') : navigate('/photographers/Fashion Photographer') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Fashion Photographer" ? "bg-indigo-100 text-black" : ""}`}>Fashion Photographer</p>
-            <p onClick={()=> speciality === 'Event Photographer' ? navigate('/photographers') : navigate('/photographers/Event Photographer') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Event Photographer" ? "bg-indigo-100 text-black" : ""}`}>Event Photographer</p>
-            <p onClick={()=> speciality === 'Product Photographer' ? navigate('/photographers') : navigate('/photographers/Product Photographer') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Product Photographer" ? "bg-indigo-100 text-black" : ""}`}>Product Photographer</p>
-            <p onClick={()=> speciality === 'Travel Photographer' ? navigate('/photographers') : navigate('/photographers/Travel Photographer') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Travel Photographer" ? "bg-indigo-100 text-black" : ""}`}>Travel Photographer</p>
-          </div>
-          <div className='w-full grid grid-cols-auto gap-4 gap-y-6'>
-            {
-              filterPhotographer.map((item, index)=>(
-                <div onClick={()=>{navigate(`/appointments/${item._id}`); scrollTo(top);}} className='border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500' key={index}>
-                    <img className='bg-blue-50' src={item.image} alt="" />
-                    <div className='p-4'>
-                        <div className='flex items-center gap-2 text-sm text-center text-green-500'>
-                            <p className='w-2 h-2 bg-green-500 rounded-full'></p><p>Available</p>
-                        </div>
-                        <p className='text-gray-900 text-lg font-medium'>{item.name}</p>
-                        <p className='text-gray-600 text-sm'>{item.speciality}</p>
-                    </div>
-                </div>
-            ))
-            }
-          </div>
-        </div>
-    </div>
-  )
-}
+    <div className="space-y-8">
+      <SectionTitle
+        eyebrow="Discover"
+        title={
+          speciality
+            ? `${speciality} listings`
+            : "Browse trusted photographers"
+        }
+        description={
+          speciality
+            ? "Filter the marketplace by one speciality and compare the strongest matching profiles."
+            : "Open a profile, review pricing and ratings, then move straight into the booking flow."
+        }
+      />
 
-export default Photographers
+      <section className="grid gap-4 sm:grid-cols-3">
+        <div className="app-surface rounded-[28px] px-5 py-5">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary/70">
+            Visible profiles
+          </p>
+          <p className="mt-3 text-3xl font-semibold text-slate-950">
+            {filteredPhotographers.length}
+          </p>
+        </div>
+        <div className="app-surface rounded-[28px] px-5 py-5">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary/70">
+            Review signals
+          </p>
+          <p className="mt-3 text-3xl font-semibold text-slate-950">
+            {totalReviews}
+          </p>
+        </div>
+        <div className="app-surface rounded-[28px] px-5 py-5">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary/70">
+            Current view
+          </p>
+          <p className="mt-3 text-lg font-semibold text-slate-950">
+            {speciality || "All photographers"}
+          </p>
+        </div>
+      </section>
+
+      <section className="grid gap-6 lg:grid-cols-[270px_1fr]">
+        <aside className="app-surface h-fit rounded-[32px] px-5 py-5">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary/70">
+            Filters
+          </p>
+          <div className="mt-4 space-y-3">
+            <button
+              type="button"
+              onClick={() => navigate("/photographers")}
+              className={`w-full rounded-2xl border px-4 py-3 text-left text-sm font-medium ${
+                !speciality
+                  ? "border-primary bg-primary text-white"
+                  : "border-slate-200 bg-white text-slate-700 hover:border-primary/30"
+              }`}
+            >
+              All photographers
+            </button>
+            {specialityLabels.map((item) => {
+              const active = speciality === item;
+              return (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() =>
+                    active ? navigate("/photographers") : navigate(`/photographers/${item}`)
+                  }
+                  className={`w-full rounded-2xl border px-4 py-3 text-left text-sm font-medium ${
+                    active
+                      ? "border-primary bg-primary text-white"
+                      : "border-slate-200 bg-white text-slate-700 hover:border-primary/30"
+                  }`}
+                >
+                  {item}
+                </button>
+              );
+            })}
+          </div>
+        </aside>
+
+        <div className="grid app-grid-auto gap-5">
+          {filteredPhotographers.map((photographer) => (
+            <PhotographerCard
+              key={photographer._id}
+              photographer={photographer}
+              compact
+              onClick={() => {
+                navigate(`/appointments/${photographer._id}`);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            />
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Photographers;

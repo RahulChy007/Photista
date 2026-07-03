@@ -1,25 +1,103 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #5f6FFF;
+  --color-primary: #5f6fff;
+  --color-primary-dark: #3947d8;
+  --color-panel: #edf2ff;
+  --color-highlight: #111c3d;
 }
 
-*{
-  font-family: Outfit;
+:root {
+  color-scheme: light;
+  background:
+    radial-gradient(circle at top left, rgba(95, 111, 255, 0.16), transparent 32%),
+    radial-gradient(circle at top right, rgba(79, 70, 229, 0.14), transparent 28%),
+    linear-gradient(180deg, #f8f9ff 0%, #eef2ff 100%);
+  color: #16213f;
 }
 
-.active hr{
-  @apply block
+html {
+  scroll-behavior: smooth;
 }
 
-::-webkit-scrollbar{
-  @apply hidden
+body {
+  min-height: 100vh;
+  background: transparent;
+  color: #16213f;
 }
 
+#root {
+  min-height: 100vh;
+}
 
-@layer utilities {
-  .grid-cols-auto {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+* {
+  box-sizing: border-box;
+  font-family: "Outfit", sans-serif;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(95, 111, 255, 0.22);
+  border-radius: 999px;
+}
+
+@layer components {
+  .app-shell {
+    @apply min-h-screen bg-transparent text-slate-900;
+  }
+
+  .app-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .app-surface {
+    @apply border border-white/80 bg-white/90 shadow-[0_22px_60px_rgba(15,23,42,0.08)] backdrop-blur;
+  }
+
+  .app-pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 px-3 py-1 text-xs font-medium text-slate-600;
+  }
+
+  .app-button-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_40px_rgba(95,111,255,0.28)] hover:-translate-y-0.5 hover:bg-[color:var(--color-primary-dark)];
+  }
+
+  .app-button-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:-translate-y-0.5 hover:border-primary/30 hover:text-primary;
+  }
+
+  .app-input {
+    @apply w-full rounded-[22px] border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/10;
+  }
+
+  .app-label {
+    @apply text-sm font-medium text-slate-700;
+  }
+
+  .app-grid-auto {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   }
 }
